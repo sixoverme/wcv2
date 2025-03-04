@@ -1,0 +1,306 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 36 33% 97%;
+    --foreground: 20 14.3% 4.1%;
+
+    --card: 36 33% 97%;
+    --card-foreground: 20 14.3% 4.1%;
+
+    --popover: 36 33% 97%;
+    --popover-foreground: 20 14.3% 4.1%;
+
+    --primary: 22 96% 29%;
+    --primary-foreground: 60 9.1% 97.8%;
+
+    --secondary: 60 4.8% 95.9%;
+    --secondary-foreground: 24 9.8% 10%;
+
+    --muted: 60 4.8% 95.9%;
+    --muted-foreground: 25 5.3% 44.7%;
+
+    --accent: 60 4.8% 95.9%;
+    --accent-foreground: 24 9.8% 10%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 60 9.1% 97.8%;
+
+    --border: 20 5.9% 90%;
+    --input: 20 5.9% 90%;
+    --ring: 20 14.3% 4.1%;
+
+    --radius: 0.75rem;
+
+    /* Custom colors for Woven Circles */
+    --earth-50: 36 33% 97%;
+    --earth-100: 36 31% 90%;
+    --earth-200: 32 29% 83%;
+    --earth-300: 28 27% 72%;
+    --earth-400: 24 25% 59%;
+    --earth-500: 22 28% 47%;
+    --earth-600: 22 32% 38%;
+    --earth-700: 22 36% 30%;
+    --earth-800: 22 40% 23%;
+    --earth-900: 22 44% 16%;
+    --earth-950: 22 48% 10%;
+
+    --sage-50: 80 25% 95%;
+    --sage-100: 78 23% 88%;
+    --sage-200: 76 21% 78%;
+    --sage-300: 74 19% 68%;
+    --sage-400: 72 17% 58%;
+    --sage-500: 70 15% 48%;
+    --sage-600: 68 17% 39%;
+    --sage-700: 66 19% 31%;
+    --sage-800: 64 21% 23%;
+    --sage-900: 62 23% 16%;
+    --sage-950: 60 25% 10%;
+
+    --clay-50: 18 33% 97%;
+    --clay-100: 18 31% 90%;
+    --clay-200: 18 29% 83%;
+    --clay-300: 18 27% 72%;
+    --clay-400: 18 25% 59%;
+    --clay-500: 18 28% 47%;
+    --clay-600: 18 32% 38%;
+    --clay-700: 18 36% 30%;
+    --clay-800: 18 40% 23%;
+    --clay-900: 18 44% 16%;
+    --clay-950: 18 48% 10%;
+  }
+
+  .dark {
+    --background: 20 14.3% 4.1%;
+    --foreground: 60 9.1% 97.8%;
+
+    --card: 20 14.3% 4.1%;
+    --card-foreground: 60 9.1% 97.8%;
+
+    --popover: 20 14.3% 4.1%;
+    --popover-foreground: 60 9.1% 97.8%;
+
+    --primary: 22 96% 39%;
+    --primary-foreground: 60 9.1% 97.8%;
+
+    --secondary: 12 6.5% 15.1%;
+    --secondary-foreground: 60 9.1% 97.8%;
+
+    --muted: 12 6.5% 15.1%;
+    --muted-foreground: 24 5.4% 63.9%;
+
+    --accent: 12 6.5% 15.1%;
+    --accent-foreground: 60 9.1% 97.8%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 60 9.1% 97.8%;
+
+    --border: 12 6.5% 15.1%;
+    --input: 12 6.5% 15.1%;
+    --ring: 24 5.7% 82.9%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+.bg-earth-50 {
+  background-color: hsl(var(--earth-50));
+}
+
+.bg-earth-100 {
+  background-color: hsl(var(--earth-100));
+}
+
+.bg-earth-200 {
+  background-color: hsl(var(--earth-200));
+}
+
+.bg-earth-300 {
+  background-color: hsl(var(--earth-300));
+}
+
+.bg-earth-400 {
+  background-color: hsl(var(--earth-400));
+}
+
+.bg-earth-500 {
+  background-color: hsl(var(--earth-500));
+}
+
+.bg-earth-600 {
+  background-color: hsl(var(--earth-600));
+}
+
+.bg-earth-700 {
+  background-color: hsl(var(--earth-700));
+}
+
+.bg-earth-800 {
+  background-color: hsl(var(--earth-800));
+}
+
+.bg-earth-900 {
+  background-color: hsl(var(--earth-900));
+}
+
+.bg-earth-950 {
+  background-color: hsl(var(--earth-950));
+}
+
+.text-earth-500 {
+  color: hsl(var(--earth-500));
+}
+
+.text-earth-600 {
+  color: hsl(var(--earth-600));
+}
+
+.text-earth-700 {
+  color: hsl(var(--earth-700));
+}
+
+.text-earth-800 {
+  color: hsl(var(--earth-800));
+}
+
+.text-earth-900 {
+  color: hsl(var(--earth-900));
+}
+
+.bg-sage-50 {
+  background-color: hsl(var(--sage-50));
+}
+
+.bg-sage-100 {
+  background-color: hsl(var(--sage-100));
+}
+
+.bg-sage-200 {
+  background-color: hsl(var(--sage-200));
+}
+
+.bg-sage-300 {
+  background-color: hsl(var(--sage-300));
+}
+
+.bg-sage-400 {
+  background-color: hsl(var(--sage-400));
+}
+
+.bg-sage-500 {
+  background-color: hsl(var(--sage-500));
+}
+
+.bg-sage-600 {
+  background-color: hsl(var(--sage-600));
+}
+
+.bg-sage-700 {
+  background-color: hsl(var(--sage-700));
+}
+
+.bg-sage-800 {
+  background-color: hsl(var(--sage-800));
+}
+
+.bg-sage-900 {
+  background-color: hsl(var(--sage-900));
+}
+
+.bg-sage-950 {
+  background-color: hsl(var(--sage-950));
+}
+
+.text-sage-500 {
+  color: hsl(var(--sage-500));
+}
+
+.text-sage-600 {
+  color: hsl(var(--sage-600));
+}
+
+.text-sage-700 {
+  color: hsl(var(--sage-700));
+}
+
+.text-sage-800 {
+  color: hsl(var(--sage-800));
+}
+
+.text-sage-900 {
+  color: hsl(var(--sage-900));
+}
+
+.bg-clay-50 {
+  background-color: hsl(var(--clay-50));
+}
+
+.bg-clay-100 {
+  background-color: hsl(var(--clay-100));
+}
+
+.bg-clay-200 {
+  background-color: hsl(var(--clay-200));
+}
+
+.bg-clay-300 {
+  background-color: hsl(var(--clay-300));
+}
+
+.bg-clay-400 {
+  background-color: hsl(var(--clay-400));
+}
+
+.bg-clay-500 {
+  background-color: hsl(var(--clay-500));
+}
+
+.bg-clay-600 {
+  background-color: hsl(var(--clay-600));
+}
+
+.bg-clay-700 {
+  background-color: hsl(var(--clay-700));
+}
+
+.bg-clay-800 {
+  background-color: hsl(var(--clay-800));
+}
+
+.bg-clay-900 {
+  background-color: hsl(var(--clay-900));
+}
+
+.bg-clay-950 {
+  background-color: hsl(var(--clay-950));
+}
+
+.text-clay-500 {
+  color: hsl(var(--clay-500));
+}
+
+.text-clay-600 {
+  color: hsl(var(--clay-600));
+}
+
+.text-clay-700 {
+  color: hsl(var(--clay-700));
+}
+
+.text-clay-800 {
+  color: hsl(var(--clay-800));
+}
+
+.text-clay-900 {
+  color: hsl(var(--clay-900));
+}
+
