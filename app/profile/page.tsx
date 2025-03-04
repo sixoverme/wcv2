@@ -1,6 +1,5 @@
 "use client"
-
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -10,18 +9,41 @@ import { Textarea } from "@/components/ui/textarea"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { useAuth } from "@/components/auth-provider"
 import { useToast } from "@/components/ui/use-toast"
+import { getProfile, updateProfile } from "@/lib/db"
 import { getInitials } from "@/lib/utils"
+import type { Database } from "@/types/supabase"
+
+type Profile = Database['public']['Tables']['profiles']['Row']
 
 export default function ProfilePage() {
   const router = useRouter()
   const { user, logout } = useAuth()
   const { toast } = useToast()
-
-  const [name, setName] = useState(user?.name || "")
-  const [location, setLocation] = useState(user?.location || "")
-  const [bio, setBio] = useState(user?.bio || "")
+  
+  const [profile, setProfile] = useState<Profile | null>(null)
   const [isEditing, setIsEditing] = useState(false)
   const [isSaving, setIsSaving] = useState(false)
+  const [formData, setFormData] = useState({
+    name: "",
+    location: "",
+    bio: ""
+  })
+
+  // Fetch profile data when component mounts
+  useEffect(() => {
+    if (user) {
+      getProfile(user.id).then((data) => {
+        if (data) {
+          setProfile(data)
+          setFormData({
+            name: data.name || "",
+            location: data.location || "",
+            bio: data.bio || ""
+          })
+        }
+      })
+    }
+  }, [user])
 
   // Redirect to login if not authenticated
   if (!user) {
@@ -31,18 +53,29 @@ export default function ProfilePage() {
 
   const handleSave = async () => {
     setIsSaving(true)
-
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1000))
-
-    // In a real app, this would update the user profile in the database
-    toast({
-      title: "Profile updated",
-      description: "Your profile has been updated successfully",
-    })
-
-    setIsSaving(false)
-    setIsEditing(false)
+    try {
+      await updateProfile(user.id, {
+        name: formData.name,
+        location: formData.location,
+        bio: formData.bio
+      })
+      
+      setProfile(prev => prev ? { ...prev, ...formData } : null)
+      
+      toast({
+        title: "Profile updated",
+        description: "Your profile has been updated successfully",
+      })
+      setIsEditing(false)
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to update profile",
+        variant: "destructive"
+      })
+    } finally {
+      setIsSaving(false)
+    }
   }
 
   const handleLogout = () => {
@@ -52,6 +85,10 @@ export default function ProfilePage() {
       title: "Logged out",
       description: "You've been logged out successfully",
     })
+  }
+
+  if (!profile) {
+    return <div>Loading...</div>
   }
 
   return (
@@ -66,11 +103,11 @@ export default function ProfilePage() {
       <Card>
         <CardHeader className="flex flex-row items-center gap-4 pb-2">
           <Avatar className="h-16 w-16">
-            <AvatarFallback className="text-lg">{getInitials(user.name)}</AvatarFallback>
+            <AvatarFallback className="text-lg">{getInitials(profile.name)}</AvatarFallback>
           </Avatar>
           <div>
-            <CardTitle>{user.name}</CardTitle>
-            <CardDescription>{user.email}</CardDescription>
+            <CardTitle>{profile.name}</CardTitle>
+            <CardDescription>{profile.email}</CardDescription>
           </div>
         </CardHeader>
         <CardContent className="space-y-4">
@@ -78,15 +115,19 @@ export default function ProfilePage() {
             <div className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="name">Name</Label>
-                <Input id="name" value={name} onChange={(e) => setName(e.target.value)} />
+                <Input 
+                  id="name" 
+                  value={formData.name} 
+                  onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))} 
+                />
               </div>
 
               <div className="space-y-2">
                 <Label htmlFor="location">Location</Label>
                 <Input
                   id="location"
-                  value={location}
-                  onChange={(e) => setLocation(e.target.value)}
+                  value={formData.location}
+                  onChange={(e) => setFormData(prev => ({ ...prev, location: e.target.value }))}
                   placeholder="City, State"
                 />
               </div>
@@ -95,8 +136,8 @@ export default function ProfilePage() {
                 <Label htmlFor="bio">Bio</Label>
                 <Textarea
                   id="bio"
-                  value={bio}
-                  onChange={(e) => setBio(e.target.value)}
+                  value={formData.bio}
+                  onChange={(e) => setFormData(prev => ({ ...prev, bio: e.target.value }))}
                   placeholder="Tell the community about yourself..."
                   className="min-h-[100px]"
                 />
@@ -106,12 +147,12 @@ export default function ProfilePage() {
             <div className="space-y-4">
               <div>
                 <h3 className="text-sm font-medium text-muted-foreground">Location</h3>
-                <p>{location || "Not specified"}</p>
+                <p>{profile.location || "Not specified"}</p>
               </div>
 
               <div>
                 <h3 className="text-sm font-medium text-muted-foreground">Bio</h3>
-                <p className="whitespace-pre-line">{bio || "No bio provided yet"}</p>
+                <p className="whitespace-pre-line">{profile.bio || "No bio provided yet"}</p>
               </div>
             </div>
           )}
